@@ -3,17 +3,17 @@ using ShoppingCart.Models;
 
 namespace ShoppingCart.Controllers;
 
-public class AuthController : Controller
+public class LoginController : Controller
 {
     // Show Login Form to user
     [HttpGet]
-    public IActionResult Login()
+    public IActionResult Index()
     {
         return View();
     }
     
     [HttpPost]
-    public IActionResult Login(string username, string password)
+    public IActionResult Index(string username, string password)
     {
         List<Users> users = GetMockData();
 

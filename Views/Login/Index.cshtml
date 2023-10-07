@@ -1,0 +1,23 @@
+@{
+    ViewData["title"] = "Login";
+}
+
+<div class="col-4 mx-auto">
+    <h3 class="text-center mb-4">Login</h3>
+
+    <form action="/login" method="POST">
+        <div class="mb-3">
+            <label for="username" class="form-label col-sm-2">Username</label>
+            <input type="text" name="username" id="username" class="form-control">
+        </div>
+
+        <div class="mb-4">
+            <label for="password" class="form-label col-sm-2">Password</label>
+            <input type="password" name="password" id="password" class="form-control">
+        </div>
+
+        <div align="right">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+    </form>
+</div>
