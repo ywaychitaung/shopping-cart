@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.Models;
+using ShoppingCart.Data;
 
 namespace ShoppingCart.Controllers;
 
@@ -15,34 +16,20 @@ public class LoginController : Controller
     [HttpPost]
     public IActionResult Index(string username, string password)
     {
-        List<Users> users = GetMockData();
+        // Get all the users from database
+        List<User> users = UserData.GetAllUsers();
 
-        foreach (Users user in users)
+        // Get all the users from database
+        foreach (User user in users)
         {
+            // Validate user credentials
             if (user.username == username && user.password == password)
             {
-                
+                // Redirect to Home route
                 return Redirect("/");
             }
         }
-
+        
         return View();
-    }
-
-    private List<Users> GetMockData()
-    {
-        List<Users> users = new List<Users>();
-
-        users.Add(new Users {
-            username = "johndoe",
-            password = "password1"
-        });
-
-        users.Add(new Users {
-            username = "janedoe",
-            password = "password2"
-        });
-
-        return users;
-    }
+    }   
 }

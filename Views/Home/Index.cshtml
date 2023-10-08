@@ -1,13 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-}
-
-@section Scripts {
-    <script src="/js/site.js"></script>
+    var users = (List<User>?) ViewData["users"];
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    @if (users != null)
+    {
+        @foreach (var user in users)
+        {
+            <h1 class="display-4">Welcome @user.name</h1>
+        }
+    }
 
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

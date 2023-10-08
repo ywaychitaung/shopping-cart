@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.Models;
+using ShoppingCart.Data;
 
 namespace ShoppingCart.Controllers;
 
@@ -15,6 +16,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        List<User> users = UserData.GetAllUsers();
+        ViewData["users"] = users;
         return View();
     }
 
