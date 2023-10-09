@@ -19,7 +19,7 @@ public class ProductData
             conn.Open();
 
             // SQL query
-            string sql = @"SELECT id, name, description, price, imageUrl FROM Product";
+            string sql = @"SELECT ProductId, Name, Description, Price, ImageUrl FROM Product";
             
             SqlCommand cmd = new SqlCommand(sql, conn);
             SqlDataReader reader = cmd.ExecuteReader();
@@ -28,11 +28,11 @@ public class ProductData
             {
                 Product product = new Product()
                 {
-                    id = (int)reader["id"],
-                    name = (string)reader["name"],
-                    description = (string)reader["description"],
-                    price = (int)reader["price"],
-                    imageUrl = (string)reader["imageUrl"]
+                    id = (int)reader["ProductId"],
+                    name = (string)reader["Name"],
+                    description = (string)reader["Description"],
+                    price = (int)reader["Price"],
+                    imageUrl = (string)reader["ImageUrl"]
                 };
                 products.Add(product);
             }

@@ -1,24 +1,50 @@
 @{
     ViewData["title"] = "Login";
+    string errorMessage = ViewBag.errorMessage;
+    string usernameRequired = ViewBag.usernameRequired;
+    string passwordRequired = ViewBag.passwordRequired;
+    string oldUsername = ViewBag.oldUsername;
+    string oldPassword = ViewBag.oldPassword;
 }
 
 @section Scripts {
     <script src="/js/site.js"></script>
 }
 
-<div class="col-4 mx-auto">
-    <h3 class="text-center mb-4">Login</h3>
+<div class="col-4 mx-auto center border shadow rounded p-5">
+    <h3 class="text-center mb-5">Login to your account</h3>
 
     <form action="/login" method="POST">
+        @if (errorMessage != null)
+        {
+            <div class="mb-3">
+                <span class="text-danger">@errorMessage</span>
+            </div>
+        }
+
+        <div class="@usernameRequired ? 'mb-0' : 'mb-3'">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" id="username" value="@oldUsername" class="form-control">
+        </div>
+        
         <div class="mb-3">
-            <label for="username" class="form-label col-sm-2">Username</label>
-            <input type="text" name="username" id="username" class="form-control">
+            @if (usernameRequired != null)
+            {
+                <span class="text-danger">@usernameRequired</span>
+            }
         </div>
 
-        <div class="mb-4 position-relative">
-            <label for="password" class="form-label col-sm-2">Password</label>
-            <input type="password" name="password" id="password" class="form-control">
-            <i class="bi bi-eye-slash position-absolute top-50 end-0 px-2" id="togglePassword" onclick="toggleEye(this)"></i>
+        <div class="position-relative @passwordRequired ? 'mb-0' : 'mb-5'">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" id="password" value="@oldPassword" class="form-control pe-5">
+            <i id="togglePassword" class="bi bi-eye-slash position-absolute top-50 end-0 pe-2"></i>
+        </div>
+
+        <div class="mb-5">
+            @if (passwordRequired != null)
+            {
+                <span class="text-danger">@passwordRequired</span>
+            }
         </div>
 
         <div align="right">

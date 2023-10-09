@@ -3,24 +3,25 @@
 
 // Write your JavaScript code.
 
+// GetFullYear by JS
+const year = document.getElementById("year");
+year.innerHTML = new Date().getFullYear();
+
 // Toggle Password Attribute
 const togglePassword = document.querySelector('#togglePassword');
 const password = document.querySelector('#password');
 
 togglePassword.addEventListener('click', () => {
+    var className = togglePassword.getAttribute("class");
+    if (className == "bi bi-eye-slash position-absolute top-50 end-0 pe-2") {
+        togglePassword.className = "bi bi-eye position-absolute top-50 end-0 pe-2";
+    }
+    else if (className == "bi bi-eye position-absolute top-50 end-0 pe-2") {
+        togglePassword.className = "bi bi-eye-slash position-absolute top-50 end-0 pe-2";
+    }
+
     const type = password
         .getAttribute('type') === 'password' ?
         'text' : 'password';
     password.setAttribute('type', type);
 });
-
-// Toggle eye-class
-function toggleEye(togglePassword) {
-    var className = togglePassword.getAttribute("class");
-    if (className == "bi bi-eye-slash position-absolute top-50 end-0 px-2") {
-        togglePassword.className = "bi bi-eye position-absolute top-50 end-0 px-2";
-    }
-    else {
-        togglePassword.className = "bi bi-eye-slash position-absolute top-50 end-0 px-2";
-    }
-}

@@ -1,12 +1,39 @@
 @{
     ViewData["title"] = "Libraries Gallery";
+    var user = ViewBag.user;
     var products = (List<Product>?) ViewData["products"];
 }
 
-<div class="d-flex justify-content-between my-5">
-    <h4>Hello</h4>
+@section Scripts {
+    <script src="/js/addToCart.js"></script>
+}
 
-    <img height="30" width="30" src="/images/shopping-cart.png" alt="Shopping Cart">
+<div class="d-flex justify-content-between my-5">
+    <div class="d-flex align-items-center">
+        @if (user != null)
+        {
+            <h4 class="me-5">Hello @user.name</h4>
+
+            <a asp-controller="Order" asp-action="Index">
+                My Purchases
+            </a>
+        
+            <div class="vertical-line mx-3"></div>
+
+            <a asp-controller="Logout" asp-action="Index">
+                Logout
+            </a>
+        }
+        else
+        {
+            <h4>Hello Guest!</h4>
+        }
+    </div>
+
+    <div>
+        <i class="bi bi-cart4 h3 text-primary"></i>
+        <span class="btn btn-primary rounded-pill ms-2">0</span>
+    </div>
 </div>
 
 <div class="mb-5">
@@ -17,17 +44,17 @@
     <div class="row">
         @if (products != null)
         {
-             @foreach (var product in products)
+            @foreach (var product in products)
             {
                 <div class="col-4 mb-5">
                     <div class="card">
-                        <img height="300" width="300" class="card-img-top" src="@product.imageUrl" alt="Card image cap">
+                        <img height="300" width="300" class="card-img-top" src="@product.imageUrl" alt="Product Image">
                         
                         <div class="card-body">
                             <h5 class="card-title">@product.name</h5>
                             <p class="card-text">@product.description</p>
                             
-                            <button class="btn btn-primary w-100">$ @product.price - Add to Cart</button>
+                            <button type="submit" class="btn btn-primary w-100">$ @product.price - Add to Cart</button>
                         </div>
                     </div>
                 </div>
