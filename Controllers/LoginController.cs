@@ -55,8 +55,11 @@ public class LoginController : Controller
             // Get all the users from database
             foreach (User user in users)
             {
+                // Check password with hashed password in the database
+                bool verified = BCrypt.Net.BCrypt.Verify(password, user.password);
+
                 // Validate user credentials
-                if (user.username == username && user.password == password)
+                if (user.username == username && verified)
                 {
                     ISession session = HttpContext.Session;
                     session.SetString("username", username);
@@ -73,5 +76,5 @@ public class LoginController : Controller
         // Send the error message to View and Return View
         ViewBag.errorMessage = errorMessage;
         return View();
-    }   
+    }
 }
