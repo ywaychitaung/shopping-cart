@@ -231,8 +231,5 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 
-# App Settings file
-appsettings.json
-
 # MacOS file
 .DS_Store

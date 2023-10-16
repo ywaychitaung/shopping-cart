@@ -7,13 +7,10 @@ public class UserData
 {
     public static List<User> GetAllUsers()
     {
-        // Get ConnectionStrings from appsettings.json file and set it to a local variable
-        string conn_str = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["Default"];
-
         // Intialize new users object
         List<User> users = new List<User>();
         
-        using (SqlConnection conn = new SqlConnection(conn_str))
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
         {
             // Start connecting to the database
             conn.Open();
@@ -40,14 +37,11 @@ public class UserData
     }
 
     public static User GetUserByUsername(string username)
-    {
-        // Get ConnectionStrings from appsettings.json file and set it to a local variable
-        string conn_str = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["Default"];
-
+    {   
         // Intialize new users object
         User user = null;
         
-        using (SqlConnection conn = new SqlConnection(conn_str))
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
         {
             // Start connecting to the database
             conn.Open();

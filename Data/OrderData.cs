@@ -7,13 +7,10 @@ public class OrderData
 {
     public static List<Order> GetOrderByUserId(int userId)
     {
-        // Get ConnectionStrings from appsettings.json file and set it to a local variable
-        string conn_str = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["Default"];
-
         // Intialize new orders object
         List<Order> orders = new List<Order>();
         
-        using (SqlConnection conn = new SqlConnection(conn_str))
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
         {
             // Start connecting to the database
             conn.Open();
@@ -45,13 +42,10 @@ public class OrderData
 
     public static List<ActivationCode> GetActivationCodes(int userId)
     {
-        // Get ConnectionStrings from appsettings.json file and set it to a local variable
-        string conn_str = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["Default"];
-
         // Intialize new codes object
         List<ActivationCode> codes = new List<ActivationCode>();
         
-        using (SqlConnection conn = new SqlConnection(conn_str))
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
         {
             // Start connecting to the database
             conn.Open();

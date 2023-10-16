@@ -2,6 +2,7 @@
     ViewData["title"] = "Libraries Gallery";
     var user = ViewBag.user;
     var products = (List<Product>?) ViewData["products"];
+    int totalQuantity = ViewBag.totalQuantity;
 }
 
 @section Scripts {
@@ -32,7 +33,7 @@
 
     <div>
         <i class="bi bi-cart4 h3 text-primary"></i>
-        <span class="btn btn-primary rounded-pill ms-2">0</span>
+        <span class="btn btn-primary rounded-pill ms-2">@totalQuantity</span>
     </div>
 </div>
 
@@ -46,7 +47,7 @@
         {
             @foreach (var product in products)
             {
-                <div class="col-4 mb-5">
+                <form method="POST" class="col-4 mb-5">
                     <div class="card">
                         <img height="300" width="300" class="card-img-top" src="@product.imageUrl" alt="Product Image">
                         
@@ -54,10 +55,12 @@
                             <h5 class="card-title">@product.name</h5>
                             <p class="card-text">@product.description</p>
                             
-                            <button type="submit" class="btn btn-primary w-100">$ @product.price - Add to Cart</button>
+                            <input type="hidden" name="userId" value="@user.id" />
+                            <input type="hidden" name="productId" value="@product.id" />
+                            <button asp-controller="Cart" asp-action="AddToCart" type="submit" class="btn btn-primary w-100">$ @product.price - Add to Cart</button>
                         </div>
                     </div>
-                </div>
+                </form>
             }
         }
     </div>

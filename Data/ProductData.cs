@@ -7,13 +7,10 @@ public class ProductData
 {
     public static List<Product> GetAllProducts()
     {
-        // Get ConnectionStrings from appsettings.json file and set it to a local variable
-        string conn_str = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["Default"];
-
         // Intialize new products object
         List<Product> products = new List<Product>();
 
-        using (SqlConnection conn = new SqlConnection(conn_str))
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
         {
             // Start connecting to the database
             conn.Open();

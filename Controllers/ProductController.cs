@@ -20,9 +20,12 @@ public class ProductController : Controller
         // Get User from database
         User user = UserData.GetUserByUsername(username);
 
+        int totalQuantity = CartData.GetTotalQuantity((int)user.id);
+
         // Send it to the view
         ViewBag.user = user;
         ViewData["products"] = products;
+        ViewBag.totalQuantity = totalQuantity;
 
         // Return view
         return View();
