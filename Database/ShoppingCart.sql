@@ -15,7 +15,6 @@ CREATE TABLE [dbo].[ActivationCode] (
     [OrderId] int,
     [ProductId] int,
     [Code] varchar(100),
-    CONSTRAINT [FK__Activatio__Produ__628FA481] FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Product]([ProductId]),
     PRIMARY KEY ([OrderId],[ProductId],[Code])
 );
 
@@ -27,8 +26,6 @@ CREATE TABLE [dbo].[Cart] (
     [UserId] int,
     [ProductId] int,
     [Quantity] int,
-    CONSTRAINT [FK__Cart__ProductId__74AE54BC] FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Product]([ProductId]),
-    CONSTRAINT [FK__Cart__UserId__73BA3083] FOREIGN KEY ([UserId]) REFERENCES [dbo].[User]([UserId]),
     PRIMARY KEY ([CartId])
 );
 
@@ -49,7 +46,6 @@ CREATE TABLE [dbo].[OrderDetails] (
     [OrderId] int,
     [ProductId] int,
     [Quantity] int,
-    CONSTRAINT [FK__OrderDeta__Produ__5FB337D6] FOREIGN KEY ([ProductId]) REFERENCES [dbo].[Product]([ProductId]),
     PRIMARY KEY ([OrderId],[ProductId])
 );
 
