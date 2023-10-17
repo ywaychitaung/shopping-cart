@@ -5,15 +5,12 @@
     int totalPrice = ViewBag.totalPrice;
 }
 
-@section Scripts {
-    <script src="/js/updateCart.js"></script>
-}
 
 <div class="d-flex align-items-center justify-content-between mb-5">
     <div class="d-flex align-items-center">
         <h3 class="me-5">View Cart</h3>
 
-        <a asp-controller="Product" asp-action="Index">
+        <a asp-controller="Order" asp-action="Success">
             Continue Shopping
         </a>
 
@@ -52,9 +49,35 @@
                     <p>Quantity:</p>
                     <input type="hidden" id="userId" value="@cart.UserId" />
                     <input type="hidden" id="productId" value="@cart.ProductId" />
-                    <input type="number" id="qty" value="@cart.Quantity" />
+
+                    <form action="/Cart/Decrease" method="POST">
+                        <input type="hidden" name="userId" value="@cart.UserId">
+                        <input type="hidden" name="productId" value="@cart.ProductId">
+                         <input type="hidden" value="@cart.Quantity" />
+                        <button type="submit">-</button>
+                    </form>
+
+                     <form action="/Cart/Update" method="POST">
+                        <input type="hidden" name="userId" value="@cart.UserId">
+                        <input type="hidden" name="productId" value="@cart.ProductId">
+                        <input type="number" onkeypress="submit" name="productQuantity" value="@cart.Quantity" />
+                    </form>
+
+                    
+
+                    <form action="/Cart/Increase" method="POST">
+                        <input type="hidden" name="userId" value="@cart.UserId">
+                        <input type="hidden" name="productId" value="@cart.ProductId">
+                        <button type="submit">+</button>
+                    </form>
                 </div>
             </div>
+
+            <form action="/Cart/Remove" method="POST">
+                <input type="hidden" name="userId" value="@cart.UserId">
+                <input type="hidden" name="productId" value="@cart.ProductId">
+                <button type="submit">x</button>
+            </form>
         </div>
     }
 </div>

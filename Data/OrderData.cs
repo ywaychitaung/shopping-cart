@@ -74,4 +74,80 @@ public class OrderData
         // Return all activation codes
         return codes;
     }
+
+    public static void CreateOrder(string orderDate, int userId)
+    {
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
+        {
+            // Start connecting to the database
+            conn.Open();
+
+            // SQL query
+            string sql = @"INSERT INTO [Order] (OrderDate, UserId) Values (@OrderDate, @UserId)";
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@OrderDate", orderDate);
+            cmd.Parameters.AddWithValue("@UserId", userId);
+            cmd.ExecuteNonQuery();
+        }
+    }
+
+    public static Order GetOrderId(string orderDate, int userId)
+    {
+        Order order = null;
+
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
+        {
+            // Start connecting to the database
+            conn.Open();
+
+            // SQL query
+            string sql = @"SELECT OrderId FROM [Order] WHERE UserId=" + userId;
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                order = new Order()
+                {
+                    OrderId = (int)reader["OrderId"]
+                };
+            }
+        }
+
+        return order;
+    }
+
+    public static void CreateOrderDetails(int orderId, int productId, int quantity)
+    {
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
+        {
+            // Start connecting to the database
+            conn.Open();
+
+            // SQL query
+            string sql = @"INSERT INTO OrderDetails (OrderId, ProductId, Quantity) Values (@OrderId, @ProductId, @Quantity)";
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@OrderId", orderId);
+            cmd.Parameters.AddWithValue("@ProductId", productId);
+            cmd.Parameters.AddWithValue("@Quantity", quantity);
+            cmd.ExecuteNonQuery();
+        }
+    }
+
+    public static void CreateActivationCode(int orderId, int productId, string hash)
+    {
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
+        {
+            // Start connecting to the database
+            conn.Open();
+
+            // SQL query
+            string sql = @"INSERT INTO ActivationCode (OrderId, ProductId, Code) Values (@OrderId, @ProductId, @Code)";
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@OrderId", orderId);
+            cmd.Parameters.AddWithValue("@ProductId", productId);
+            cmd.Parameters.AddWithValue("@Code", hash);
+            cmd.ExecuteNonQuery();
+        }
+    }
 }

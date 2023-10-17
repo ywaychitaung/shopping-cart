@@ -55,4 +55,50 @@ public class CartController : Controller
     {
         return Redirect("/Product");
     }
+
+    [HttpPost]
+    public IActionResult Remove(int userId, int productId)
+    {
+        CartData.RemoveFromCart(userId, productId);
+
+        return Redirect("/Cart");
+    }
+
+     [HttpPost]
+    public IActionResult Increase(int userId, int productId)
+    {
+        CartData.UpdateTheCart(userId, productId);
+
+        return Redirect("/Cart");
+    }
+
+     [HttpPost]
+    public IActionResult Decrease(int userId, int productId, int productQuantity)
+    {
+        if (productQuantity > 1)
+        {
+            CartData.Decrease(userId, productId);
+        }
+        else
+        {
+            CartData.RemoveFromCart(userId, productId);
+        }
+
+        return Redirect("/Cart");
+    }
+
+    [HttpPost]
+    public IActionResult Update(int userId, int productId, int productQuantity)
+    {
+        if (productQuantity == 0 || productQuantity < 0)
+        {
+            CartData.RemoveFromCart(userId, productId);
+        }
+        else
+        {
+            CartData.Update(userId, productId, productQuantity);
+        }
+
+        return Redirect("/Cart");
+    }
 }

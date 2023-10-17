@@ -177,10 +177,53 @@ public class CartData
         }
     }
 
+    public static void Update(int userId, int productId, int productQuantity)
+    {
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
+        {
+            // Start connecting to the database
+            conn.Open();
+
+            // SQL query
+            string sql = @"UPDATE Cart SET Quantity=@Quantity WHERE UserId=" + userId + "AND ProductId=" + productId;
+            
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@Quantity", productQuantity);
+
+            cmd.ExecuteNonQuery();
+
+            // Stop connecting to the database
+            conn.Close();
+        }
+    }
+
     public static void UpdateTheCart(int userId, int productId)
     {
         Cart cart = GetQuantity(userId, productId);
         cart.Quantity += 1;
+
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
+        {
+            // Start connecting to the database
+            conn.Open();
+
+            // SQL query
+            string sql = @"UPDATE Cart SET Quantity=@Quantity WHERE UserId=" + userId + "AND ProductId=" + productId;
+            
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@Quantity", cart.Quantity);
+
+            cmd.ExecuteNonQuery();
+
+            // Stop connecting to the database
+            conn.Close();
+        }
+    }
+
+    public static void Decrease(int userId, int productId)
+    {
+        Cart cart = GetQuantity(userId, productId);
+        cart.Quantity -= 1;
 
         using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
         {
@@ -249,5 +292,43 @@ public class CartData
         }
 
         return totalPrice;
+    }
+
+    public static void RemoveFromCart(int userId, int productId)
+    {
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
+        {
+            // Start connecting to the database
+            conn.Open();
+
+            // SQL query
+            string sql = @"DELETE FROM Cart WHERE UserId=" + userId + "AND ProductId=" + productId;
+            
+            SqlCommand cmd = new SqlCommand(sql, conn);
+
+            cmd.ExecuteNonQuery();
+
+            // Stop connecting to the database
+            conn.Close();
+        }
+    }
+
+    public static void DeleteCart(int userId)
+    {
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
+        {
+            // Start connecting to the database
+            conn.Open();
+
+            // SQL query
+            string sql = @"DELETE FROM Cart WHERE UserId=" + userId;
+            
+            SqlCommand cmd = new SqlCommand(sql, conn);
+
+            cmd.ExecuteNonQuery();
+
+            // Stop connecting to the database
+            conn.Close();
+        }
     }
 }
