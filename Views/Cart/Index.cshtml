@@ -1,5 +1,6 @@
 @{
     ViewData["title"] = "View Cart";
+    var user = ViewBag.user;
 
     var carts = ViewBag.carts;
     int totalPrice = ViewBag.totalPrice;
@@ -10,9 +11,12 @@
     <div class="d-flex align-items-center">
         <h3 class="me-5">View Cart</h3>
 
-        <a asp-controller="Order" asp-action="Success">
-            Continue Shopping
-        </a>
+        <form action="/Order/Success" method="POST">
+            <input type="hidden" id="userId" name="userId" value="@user.id">
+            <button type="submit" class="text-primary text-decoration-underline">
+                Continue Shopping
+            </button>
+        </form>
 
         <div class="vertical-line mx-3"></div>
 

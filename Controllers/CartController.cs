@@ -27,6 +27,7 @@ public class CartController : Controller
         // Send it to the view
         ViewBag.carts = carts;
         ViewBag.totalPrice = totalPrice;
+        ViewBag.user = user;
 
         return View();
     }

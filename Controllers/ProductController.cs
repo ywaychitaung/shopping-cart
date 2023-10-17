@@ -6,10 +6,22 @@ namespace ShoppingCart.Controllers;
 
 public class ProductController : Controller
 {
-    public IActionResult Index()
+    public IActionResult Index(string searchString)
     {
         // Get all products from database
         List<Product> products = ProductData.GetAllProducts();
+
+        ViewBag.searchString = searchString;
+
+        if (ViewBag.searchString != null)
+        {
+            // Filter Products
+            ViewBag.products = FilterBySearchString(searchString, products);
+        }
+        else
+        {
+            ViewBag.products = products;
+        }
 
         // Get session data
         ISession session = HttpContext.Session;
@@ -24,10 +36,26 @@ public class ProductController : Controller
 
         // Send it to the view
         ViewBag.user = user;
-        ViewData["products"] = products;
         ViewBag.totalQuantity = totalQuantity;
 
         // Return view
         return View();
     }
+
+    private List<Product> FilterBySearchString(string searchString, List<Product> products)
+	{
+		List<Product> filteredProducts = new List<Product>();
+
+		foreach (Product product in products) {
+			if (product.name != null) {
+				if (product.name.ToLower().IndexOf(
+					searchString.ToLower()) != -1)
+				{
+					filteredProducts.Add(product);
+				}
+			}
+		}
+
+		return filteredProducts;
+	}
 }

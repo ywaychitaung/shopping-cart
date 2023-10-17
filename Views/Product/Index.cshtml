@@ -1,12 +1,13 @@
 @{
     ViewData["title"] = "Libraries Gallery";
     var user = ViewBag.user;
-    var products = (List<Product>?) ViewData["products"];
+    var products = ViewBag.products;
     int totalQuantity = ViewBag.totalQuantity;
+    var searchString = ViewBag.searchString;
 }
 
 @section Scripts {
-    <script src="/js/addToCart.js"></script>
+    <script src="/js/search.js"></script>
 }
 
 <div class="d-flex justify-content-between my-5">
@@ -38,7 +39,9 @@
 </div>
 
 <div class="mb-5">
-    <input class="w-100 px-4 py-2" type="text" placeholder="Search">
+    <form action="/Product" method="POST">
+        <input class="w-100 px-4 py-2" type="text" onkeypress="submit" value="@searchString" id="searchString" name="searchString" placeholder="Search" />
+    </form>
 </div>
 
 <div class="container">
