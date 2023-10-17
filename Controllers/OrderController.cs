@@ -36,6 +36,8 @@ public class OrderController : Controller
 
         string orderDate = DateTime.Now.ToString("dd/MM/yyyy");
 
+        string timestamp = DateTime.Now.ToString();
+
         OrderData.CreateOrder(orderDate, userId);
 
         Order order = OrderData.GetOrderId(orderDate, userId);
@@ -48,7 +50,7 @@ public class OrderController : Controller
             
             for(int qty = 0; qty < cart.Quantity; qty++)
             {
-                string ac = orderId.ToString() + cart.ProductId.ToString() + qty.ToString();
+                string ac = orderId.ToString() + cart.ProductId.ToString() + timestamp +qty.ToString();
                 string hash = BCrypt.Net.BCrypt.HashPassword(ac);
 
                 OrderData.CreateActivationCode(orderId, (int)cart.ProductId, hash);
