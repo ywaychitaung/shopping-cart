@@ -4,7 +4,7 @@
 -- https://tableplus.com/
 --
 -- Database: ShoppingCart
--- Generation Time: 2023-10-17 00:58:15.9650
+-- Generation Time: 2023-10-17 15:42:42.6700
 -- -------------------------------------------------------------
 
 
@@ -36,10 +36,9 @@ DROP TABLE IF EXISTS [dbo].[Order];
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: sequences, indices, triggers. Do not use it as a backup.
 
 CREATE TABLE [dbo].[Order] (
-    [OrderId] int,
+    [OrderId] int IDENTITY,
     [OrderDate] varchar(50),
     [UserId] int,
-    CONSTRAINT [FK__Order__UserId__3B75D760] FOREIGN KEY ([UserId]) REFERENCES [dbo].[User]([UserId]),
     PRIMARY KEY ([OrderId])
 );
 
@@ -76,28 +75,6 @@ CREATE TABLE [dbo].[User] (
     [Password] varchar(200),
     PRIMARY KEY ([UserId])
 );
-
-INSERT INTO [dbo].[ActivationCode] ([OrderId], [ProductId], [Code]) VALUES
-('1', '2', N'ASDFASDFSDAFS'),
-('1', '2', N'VFFSDFAASFDAF'),
-('1', '4', N'BSFSEFEFDFADF'),
-('1', '5', N'CJFFEEFEJEKEE'),
-('1', '5', N'EFRDZDFADVVDV'),
-('1', '5', N'HTRSDFDFDDDFD');
-
-INSERT INTO [dbo].[Cart] ([CartId], [UserId], [ProductId], [Quantity]) VALUES
-('1', '2', '2', '5'),
-('2', '2', '5', '1'),
-('3', '2', '1', '5'),
-('4', '2', '3', '1');
-
-INSERT INTO [dbo].[Order] ([OrderId], [OrderDate], [UserId]) VALUES
-('1', N'Apr  8 2023', '2');
-
-INSERT INTO [dbo].[OrderDetails] ([OrderId], [ProductId], [Quantity]) VALUES
-('1', '2', '2'),
-('1', '4', '1'),
-('1', '5', '3');
 
 INSERT INTO [dbo].[Product] ([ProductId], [Name], [Description], [Price], [ImageUrl]) VALUES
 ('1', N'.NET Charts', N'Bring powerful charting capabilites to your .NET applications.', '99', N'/images/net-charts.png'),
