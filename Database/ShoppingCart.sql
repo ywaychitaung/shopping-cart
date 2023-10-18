@@ -81,7 +81,7 @@ INSERT INTO [dbo].[Product] ([ProductId], [Name], [Description], [Price], [Image
 ('6', N'.NET Numerics', N'Powerfu numberical methods for your .NET simulations.', '199', N'/images/net-charts.png');
 
 INSERT INTO [dbo].[User] ([UserId], [Name], [Username], [Password]) VALUES
-('1', N'Li Chong Yang', N'barry', N'$2y$10$KdEhvvj/ZaGxLq0VaorRCup6uIHmt43ZegAArIYXMzzYhOuQpn/6K'),
+('1', N'Li Chongyang', N'barry', N'$2y$10$KdEhvvj/ZaGxLq0VaorRCup6uIHmt43ZegAArIYXMzzYhOuQpn/6K'),
 ('2', N'Yway Chit Aung', N'cappy', N'$2y$10$KdEhvvj/ZaGxLq0VaorRCup6uIHmt43ZegAArIYXMzzYhOuQpn/6K'),
 ('3', N'Ge Hongrui', N'zoe', N'$2y$10$KdEhvvj/ZaGxLq0VaorRCup6uIHmt43ZegAArIYXMzzYhOuQpn/6K'),
 ('4', N'Bryan Yeo Wei Ren', N'bryan', N'$2y$10$KdEhvvj/ZaGxLq0VaorRCup6uIHmt43ZegAArIYXMzzYhOuQpn/6K'),
