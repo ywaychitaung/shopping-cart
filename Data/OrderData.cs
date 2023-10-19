@@ -93,7 +93,7 @@ public class OrderData
 
     public static Order GetOrderId(string orderDate, int userId)
     {
-        Order order = null;
+        Order order = new Order();
 
         using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
         {

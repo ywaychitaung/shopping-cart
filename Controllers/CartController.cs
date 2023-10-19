@@ -17,8 +17,14 @@ public class CartController : Controller
         // Get username from session
         string? username = session.GetString("username");
 
-        // Get User from database
-        User user = UserData.GetUserByUsername(username);
+        User user = new User();
+
+        if (username != null)
+        {
+            // Get User from database
+            user = UserData.GetUserByUsername(username);
+            ViewBag.user = user;
+        }
 
         List<Cart> carts = CartData.GetCart((int)user.id);
 
@@ -27,7 +33,6 @@ public class CartController : Controller
         // Send it to the view
         ViewBag.carts = carts;
         ViewBag.totalPrice = totalPrice;
-        ViewBag.user = user;
 
         return View();
     }

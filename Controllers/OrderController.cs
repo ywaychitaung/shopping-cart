@@ -15,7 +15,13 @@ public class OrderController : Controller
         string? username = session.GetString("username");
 
         // Get User from database
-        User user = UserData.GetUserByUsername(username);
+        User user = new User();
+
+        if (username != null)
+        {
+            user = UserData.GetUserByUsername(username);
+            ViewBag.user = user;
+        }
 
         // Get order from database
         List<Order> orders = OrderData.GetOrderByUserId((int)user.id);
@@ -23,7 +29,6 @@ public class OrderController : Controller
         // Get activation codes from database
         List<ActivationCode> codes = OrderData.GetActivationCodes((int)user.id);
 
-        ViewBag.user = user;
         ViewBag.orders = orders;
         ViewBag.codes = codes;
 
@@ -42,11 +47,11 @@ public class OrderController : Controller
 
         Order order = OrderData.GetOrderId(orderDate, userId);
 
-        int orderId = (int)order.OrderId;
+        int orderId = order.OrderId;
 
         foreach(var cart in carts)
         {
-            OrderData.CreateOrderDetails(orderId, (int)cart.ProductId, (int)cart.Quantity);
+            OrderData.CreateOrderDetails(orderId, cart.ProductId, cart.Quantity);
             
             for(int qty = 0; qty < cart.Quantity; qty++)
             {

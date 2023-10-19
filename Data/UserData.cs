@@ -39,7 +39,7 @@ public class UserData
     public static User GetUserByUsername(string username)
     {   
         // Intialize new users object
-        User user = null;
+        User user = new User();
         
         using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
         {
@@ -61,8 +61,7 @@ public class UserData
                     password = (string)reader["Password"]
                 };
             }
-
-            return user;
         }        
+        return user;
     }
 }

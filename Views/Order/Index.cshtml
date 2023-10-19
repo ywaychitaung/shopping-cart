@@ -19,6 +19,9 @@
 <h3 class="text-center">Purchases History</h3>
 
 @{int i = 0;}
+
+@if (orders != null)
+{
     @foreach(var order in orders)
     {
         <div class="d-flex align-items-center mt-5">
@@ -53,12 +56,15 @@
                     <div class="d-flex">
                         <p class="text-secondary me-1">Activation Code:</p>
 
-                        @if (order.OrderId != codes[i].OrderId || order.OrderDate != codes[i].OrderDate || order.ProductId != codes[i].ProductId)
+                        @if (codes != null)
                         {
-                            i++;
-                        }
+                            @if (order.OrderId != codes[i].OrderId || order.OrderDate != codes[i].OrderDate || order.ProductId != codes[i].ProductId)
+                            {
+                                i++;
+                            }
 
-                        <p>@codes[i].Code</p>
+                            <p>@codes[i].Code</p>
+                        }
                     </div>
                 }
                 else
@@ -67,7 +73,10 @@
                         <p class="text-secondary me-2">Activation Code:</p>
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @codes[i].Code
+                                @if (codes != null)
+                                {
+                                    @codes[i].Code
+                                }
                             </button>
 
                             <ul class="dropdown-menu px-3 pt-3" aria-labelledby="dropdownMenuButton">
@@ -75,7 +84,10 @@
                                 @for (int x = 0; x < @order.Quantity - 1; x++)
                                 {
                                     <li class="dropdown-item">
-                                        <p>@codes[temp].Code</p>
+                                        @if (codes != null)
+                                        {
+                                            <p>@codes[temp].Code</p>
+                                        }
                                     </li>
                                     temp++;
                                 }
@@ -88,5 +100,6 @@
 
         i++;
     }
+}
 
     

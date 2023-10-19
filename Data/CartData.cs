@@ -73,16 +73,16 @@ public class CartData
             }
         }
 
-        if (carts != null)
+        foreach(var cart in carts)
         {
-            foreach(var cart in carts)
+            if (cart != null)
             {
-                totalQuantity = (int)(totalQuantity + cart.Quantity);
+                totalQuantity += cart.Quantity;
             }
-        }
-        else
-        {
-            totalQuantity = 0;
+            else
+            {
+                totalQuantity = 0;
+            }
         }
         
         return totalQuantity;
@@ -278,17 +278,13 @@ public class CartData
                 carts.Add(cart);
             }
         }
-
-        if (carts != null)
+        
+        foreach(var cart in carts)
         {
-            foreach(var cart in carts)
+            if (cart != null)
             {
-                totalPrice +=  (int)(cart.Price * cart.Quantity);
+                totalPrice +=  cart.Price * cart.Quantity;
             }
-        }
-        else
-        {
-            totalPrice = 0;
         }
 
         return totalPrice;
