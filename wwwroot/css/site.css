@@ -33,3 +33,27 @@ body {
 .vertical-middle {
   vertical-align: middle;
 }
+
+.image-container {
+  height: 100px;
+  width: 100px;
+}
+
+.grid-col {
+  width: 30%;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.w-16 {
+  width: 100px;
+}
+
+.cart-position {
+  top: -15px;
+  left: 25px;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}

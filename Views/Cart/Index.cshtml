@@ -6,84 +6,111 @@
     int totalPrice = ViewBag.totalPrice;
 }
 
+<header class="d-flex align-items-center justify-content-between my-5">
+    <a asp-controller="Product" asp-action="Index">
+        <i class="bi bi-arrow-left"></i>
+        Back to Home
+    </a>
 
-<div class="d-flex align-items-center justify-content-between mb-5">
-    <div class="d-flex align-items-center">
-        <h3 class="me-5">View Cart</h3>
-
-        <form action="/Order/Success" method="POST">
-            <input type="hidden" id="userId" name="userId" value="@user.id">
-            <button type="submit" class="text-primary text-decoration-underline">
-                Continue Shopping
-            </button>
-        </form>
-
-        <div class="vertical-line mx-3"></div>
-
-        <a asp-controller="Logout" asp-action="Index">
-            Logout
-        </a>
-    </div>
-
-    <p>@totalPrice</p>
-</div>
+    <a asp-controller="Logout" asp-action="Index">
+        Logout
+    </a>
+</header>
 
 <div class="container">
-    <table class="table">
-        <thead>
-            <tr class="text-center">
-                <th scope="col">ITEM</th>
-                <th scope="col">PRICE</th>
-                <th scope="col">QUANTITY</th>
-                <th scope="col">TOTAL</th>
-            </tr>
-        </thead>
+    <h3 class="text-center my-5">Shopping Cart</h3>
 
-        <tbody>
-            @foreach(var cart in carts)
-            {
-                <tr class="vertical-middle">
-                    <td class="d-flex align-items-center">
-                        <img height="100" width="100" src="@cart.ImageUrl" alt="@cart.Name">
+    <div class="d-flex align-items-start justify-content-between">
+        <div class="w-75">
+            <table class="table">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">ITEM</th>
+                        <th scope="col">PRICE</th>
+                        <th scope="col">QUANTITY</th>
+                        <th scope="col">SUBTOTAL</th>
+                    </tr>
+                </thead>
 
-                        <div class="ms-5">
-                            <h4>@cart.Name</h4>
-                            <p>@cart.Description</p>
+                <tbody>
+                    @foreach(var cart in carts)
+                    {
+                        <tr class="vertical-middle">
+                            <td class="d-flex align-items-center">
+                                <img height="100" width="100" src="@cart.ImageUrl" alt="@cart.Name">
 
-                            <form action="/Cart/Remove" method="POST">
-                                <input type="hidden" name="userId" value="@cart.UserId">
-                                <input type="hidden" name="productId" value="@cart.ProductId">
-                                <button type="submit" class="btn btn-outline-danger">Remove</button>
-                            </form>
-                        </div>
-                    </td>
+                                <div class="ms-5">
+                                    <h4>@cart.Name</h4>
+                                    <p>@cart.Description</p>
 
-                    <td class="text-center">$ @cart.Price</td>
+                                    <form action="/Cart/Remove" method="POST">
+                                        <input type="hidden" name="userId" value="@cart.UserId">
+                                        <input type="hidden" name="productId" value="@cart.ProductId">
+                                        <button type="submit" class="btn btn-outline-danger">Remove</button>
+                                    </form>
+                                </div>
+                            </td>
 
-                    <td class="d-flex align-items-center justify-content-center">
-                        <form action="/Cart/Decrease" method="POST">
-                            <input type="hidden" name="userId" value="@cart.UserId">
-                            <input type="hidden" name="productId" value="@cart.ProductId">
-                            <input type="hidden" name="productQuantity" value="@cart.Quantity" />
-                            <button type="submit" class="btn btn-primary">-</button>
-                        </form>
+                            <td class="text-center">$ @cart.Price</td>
 
-                        <span class="mx-5">@cart.Quantity</span>
+                            <td>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <form action="/Cart/Decrease" method="POST">
+                                        <input type="hidden" name="userId" value="@cart.UserId">
+                                        <input type="hidden" name="productId" value="@cart.ProductId">
+                                        <input type="hidden" name="productQuantity" value="@cart.Quantity" />
+                                        <button type="submit" class="btn btn-primary">-</button>
+                                    </form>
 
-                        <form action="/Cart/Increase" method="POST">
-                            <input type="hidden" name="userId" value="@cart.UserId">
-                            <input type="hidden" name="productId" value="@cart.ProductId">
-                            <button type="submit" class="btn btn-primary">+</button>
-                        </form>
-                    </td>
+                                    <div class="w-16 mx-3">
+                                        <form action="/Cart/Update" method="POST">
+                                            <input type="hidden" name="userId" value="@cart.UserId">
+                                            <input type="hidden" name="productId" value="@cart.ProductId">
+                                            <input type="number" onkeypress="submit" name="productQuantity" value="@cart.Quantity" class="w-100" />
+                                        </form>
+                                    </div>
 
-                    <td class="text-center">$ @(cart.Price * cart.Quantity)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                                    <form action="/Cart/Increase" method="POST">
+                                        <input type="hidden" name="userId" value="@cart.UserId">
+                                        <input type="hidden" name="productId" value="@cart.ProductId">
+                                        <button type="submit" class="btn btn-primary">+</button>
+                                    </form>
+                                </div>
+                            </td>
 
-    
+                            <td class="text-center">$ @(cart.Price * cart.Quantity)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="w-25">
+            <div class="container shadow rounded-3 p-3 ms-5">
+                <div class="d-flex justify-content-between">
+                    <p class="text-secondary">Subtotal</p>
+                    <p>$ @totalPrice</p>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <p class="text-secondary">Shipping</p>
+                    <p>Free</p>
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between mb-3">
+                    <p class="text-secondary">Total</p>
+                    <h5>$ @totalPrice</h5>
+                </div>
+
+                <form action="/Order/Success" method="POST">
+                    <input type="hidden" id="userId" name="userId" value="@user.id">
+                    <button type="submit" class="btn btn-primary w-100">Checkout</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 @* <div class="d-flex align-items-center justify-content-between mt-5">

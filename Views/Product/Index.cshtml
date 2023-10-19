@@ -6,11 +6,15 @@
     var searchString = ViewBag.searchString;
 }
 
-<div class="d-flex justify-content-between my-5">
+@section Scripts {
+    <script src="/js/focusSearchBox.js"></script>
+}
+
+<header class="d-flex align-items-center justify-content-between my-5">
     <div class="d-flex align-items-center">
         @if (user != null)
         {
-            <h4 class="me-5">Hello @user.name</h4>
+            <h4 class="me-5">Hello, @user.name</h4>
 
             <a asp-controller="Order" asp-action="Index">
                 My Purchases
@@ -28,15 +32,15 @@
         }
     </div>
 
-    <a href="/Cart">
-        <i class="bi bi-cart4 h3 text-primary"></i>
-        <span class="btn btn-primary rounded-pill ms-2">@totalQuantity</span>
+    <a asp-controller="Cart" asp-action="Index" class="position-relative">
+        <i class="bi bi-cart4 h3 text-secondary"></i>
+        <span class="btn btn-primary rounded-pill position-absolute cart-position">@totalQuantity</span>
     </a>
-</div>
+</header>
 
 <div class="mb-5">
-    <form action="/Product" method="POST">
-        <input class="w-100 px-4 py-2" type="text" onkeypress="submit" value="@searchString" id="searchString" name="searchString" placeholder="Search" />
+    <form asp-controller="Product" asp-action="Index" method="POST">
+        <input class="w-100 rounded-full px-4 py-2" type="text" onkeypress="submit" value="@searchString" id="searchString" name="searchString" placeholder="Quick Search . . . Type '/' to focus this search box!" />
     </form>
 </div>
 
@@ -46,9 +50,11 @@
         {
             @foreach (var product in products)
             {
-                <form method="POST" class="col-4 mb-5">
-                    <div class="card">
-                        <img height="150" width="150" class="card-img-top" src="@product.imageUrl" alt="Product Image">
+                <form asp-controller="Cart" asp-action="AddToCart" method="POST" class="grid-col mb-5">
+                    <div class="card shadow">
+                        <div class="image-container mx-auto my-3">
+                            <img class="card-img-top" src="@product.imageUrl" alt="Product Image">
+                        </div>
                         
                         <div class="card-body">
                             <h5 class="card-title">@product.name</h5>
@@ -56,7 +62,7 @@
                             
                             <input type="hidden" name="userId" value="@user.id" />
                             <input type="hidden" name="productId" value="@product.id" />
-                            <button asp-controller="Cart" asp-action="AddToCart" type="submit" class="btn btn-primary w-100">$ @product.price - Add to Cart</button>
+                            <button type="submit" class="btn btn-primary w-100">$ @product.price - Add to Cart</button>
                         </div>
                     </div>
                 </form>
