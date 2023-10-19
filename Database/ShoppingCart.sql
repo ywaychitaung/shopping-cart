@@ -74,11 +74,11 @@ CREATE TABLE [dbo].[User] (
 
 INSERT INTO [dbo].[Product] ([ProductId], [Name], [Description], [Price], [ImageUrl]) VALUES
 ('1', N'.NET Charts', N'Bring powerful charting capabilites to your .NET applications.', '99', N'/images/net-charts.png'),
-('2', N'.NET PayPal', N'Integrate your .NET apps with PayPal the easy way!', '69', N'/images/net-charts.png'),
-('3', N'.NET ML', N'Supercharged .NET machine leraning libraries.', '299', N'/images/net-charts.png'),
-('4', N'.NET Analytics', N'Performs data mining and analytics easily in .NET.', '299', N'/images/net-charts.png'),
-('5', N'.NET Logger', N'Logs and aggregates events easily in your .NET apps.', '49', N'/images/net-charts.png'),
-('6', N'.NET Numerics', N'Powerfu numberical methods for your .NET simulations.', '199', N'/images/net-charts.png');
+('2', N'.NET PayPal', N'Integrate your .NET apps with PayPal the easy way!', '69', N'/images/net-paypal.png'),
+('3', N'.NET ML', N'Supercharged .NET machine leraning libraries.', '299', N'/images/net-ml.png'),
+('4', N'.NET Analytics', N'Performs data mining and analytics easily in .NET.', '299', N'/images/net-analytics.png'),
+('5', N'.NET Logger', N'Logs and aggregates events easily in your .NET apps.', '49', N'/images/net-logger.png'),
+('6', N'.NET Numerics', N'Powerful numberical methods for your .NET simulations.', '199', N'/images/net-numerics.png');
 
 INSERT INTO [dbo].[User] ([UserId], [Name], [Username], [Password]) VALUES
 ('1', N'Li Chongyang', N'barry', N'$2y$10$KdEhvvj/ZaGxLq0VaorRCup6uIHmt43ZegAArIYXMzzYhOuQpn/6K'),

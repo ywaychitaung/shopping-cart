@@ -29,9 +29,64 @@
 </div>
 
 <div class="container">
-    @foreach(var cart in carts)
-    {
-        <div class="d-flex align-items-center mt-5">
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th scope="col">ITEM</th>
+                <th scope="col">PRICE</th>
+                <th scope="col">QUANTITY</th>
+                <th scope="col">TOTAL</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach(var cart in carts)
+            {
+                <tr class="vertical-middle">
+                    <td class="d-flex align-items-center">
+                        <img height="100" width="100" src="@cart.ImageUrl" alt="@cart.Name">
+
+                        <div class="ms-5">
+                            <h4>@cart.Name</h4>
+                            <p>@cart.Description</p>
+
+                            <form action="/Cart/Remove" method="POST">
+                                <input type="hidden" name="userId" value="@cart.UserId">
+                                <input type="hidden" name="productId" value="@cart.ProductId">
+                                <button type="submit" class="btn btn-outline-danger">Remove</button>
+                            </form>
+                        </div>
+                    </td>
+
+                    <td class="text-center">$ @cart.Price</td>
+
+                    <td class="d-flex align-items-center justify-content-center">
+                        <form action="/Cart/Decrease" method="POST">
+                            <input type="hidden" name="userId" value="@cart.UserId">
+                            <input type="hidden" name="productId" value="@cart.ProductId">
+                            <input type="hidden" name="productQuantity" value="@cart.Quantity" />
+                            <button type="submit" class="btn btn-primary">-</button>
+                        </form>
+
+                        <span class="mx-5">@cart.Quantity</span>
+
+                        <form action="/Cart/Increase" method="POST">
+                            <input type="hidden" name="userId" value="@cart.UserId">
+                            <input type="hidden" name="productId" value="@cart.ProductId">
+                            <button type="submit" class="btn btn-primary">+</button>
+                        </form>
+                    </td>
+
+                    <td class="text-center">$ @(cart.Price * cart.Quantity)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    
+</div>
+
+@* <div class="d-flex align-items-center justify-content-between mt-5">
             <div class="col-3 me-5">
                 <div class="card">
                     <img height="300" width="300" class="card-img-top" src="@cart.ImageUrl" alt="@cart.Name">
@@ -45,7 +100,7 @@
 
             <div>
                 <div class="d-flex">
-                    <p>Price:</p>
+                    <h3>Price:</h3>
                     <p>@cart.Price</p>
                 </div>
 
@@ -58,7 +113,7 @@
                         <input type="hidden" name="userId" value="@cart.UserId">
                         <input type="hidden" name="productId" value="@cart.ProductId">
                          <input type="hidden" value="@cart.Quantity" />
-                        <button type="submit">-</button>
+                        <button type="submit" class="btn btn-primary">-</button>
                     </form>
 
                      <form action="/Cart/Update" method="POST">
@@ -72,7 +127,7 @@
                     <form action="/Cart/Increase" method="POST">
                         <input type="hidden" name="userId" value="@cart.UserId">
                         <input type="hidden" name="productId" value="@cart.ProductId">
-                        <button type="submit">+</button>
+                        <button type="submit" class="btn btn-primary">+</button>
                     </form>
                 </div>
             </div>
@@ -80,9 +135,7 @@
             <form action="/Cart/Remove" method="POST">
                 <input type="hidden" name="userId" value="@cart.UserId">
                 <input type="hidden" name="productId" value="@cart.ProductId">
-                <button type="submit">x</button>
+                <button type="submit" class="btn btn-outline-danger">Remove</button>
             </form>
-        </div>
-    }
-</div>
+        </div> *@
 
