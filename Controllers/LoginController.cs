@@ -64,6 +64,22 @@ public class LoginController : Controller
                     ISession session = HttpContext.Session;
                     session.SetString("username", username);
 
+                    int? sessionId = session.GetInt32("sessionId");
+
+                    if (sessionId != null)
+                    {
+                        List<Cart> cart1 = CartData.GetCart(user.id);
+                        List<Cart> cart2 = CartData.GetCart(sessionId.Value);
+
+                        CartData.MergeDuplicateItems(cart1, cart2);
+                        CartData.ChangeSessionIdToUserId(user.id, sessionId.Value);
+
+                        // Redirect to Cart page
+                        return RedirectToAction("Index", "Cart");
+                    }
+
+                    session.Remove("sessionId");
+
                     // Redirect to Product page
                     return RedirectToAction("Index", "Product");
                 }
@@ -75,6 +91,7 @@ public class LoginController : Controller
         
         // Send the error message to View and Return View
         ViewBag.errorMessage = errorMessage;
+
         return View();
     }
 }

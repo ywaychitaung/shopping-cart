@@ -11,9 +11,10 @@
         Back to Home
     </a>
 
-    <a asp-controller="Logout" asp-action="Index">
-        Logout
-    </a>
+    <form asp-controller="Logout" asp-action="Index" method="POST">
+        <input type="hidden" name="username" value="@user.username">
+        <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
 </header>
 
 <h3 class="text-center">Purchases History</h3>

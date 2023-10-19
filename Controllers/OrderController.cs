@@ -35,8 +35,13 @@ public class OrderController : Controller
         return View();
     }
 
-    public IActionResult Success(int userId = 2)
+    public IActionResult Checkout(int userId)
     {
+        if (userId == 0)
+        {
+            return RedirectToAction("Index", "Login");
+        }
+        
         List<Cart> carts = CartData.GetCart(userId);
 
         string orderDate = DateTime.Now.ToString("dd/MM/yyyy");
@@ -55,15 +60,15 @@ public class OrderController : Controller
             
             for(int qty = 0; qty < cart.Quantity; qty++)
             {
-                string ac = orderId.ToString() + cart.ProductId.ToString() + timestamp +qty.ToString();
-                string hash = BCrypt.Net.BCrypt.HashPassword(ac);
+                string uniqueString = orderId.ToString() + cart.ProductId.ToString() + timestamp + qty.ToString();
+                string hash = BCrypt.Net.BCrypt.HashPassword(uniqueString);
 
-                OrderData.CreateActivationCode(orderId, (int)cart.ProductId, hash);
+                OrderData.CreateActivationCode(orderId, cart.ProductId, hash);
             }
         }
 
         CartData.DeleteCart(userId);
 
-        return Redirect("/Order");
+        return RedirectToAction("Index", "Order");
     }
 }

@@ -17,18 +17,41 @@ public class CartController : Controller
         // Get username from session
         string? username = session.GetString("username");
 
-        User user = new User();
+        int? sessionId = null;
+
+        if (username == null)
+        {
+            sessionId = session.GetInt32("sessionId");
+
+            if (sessionId == null)
+            {
+                // Create sessionId
+                sessionId = Guid.NewGuid().GetHashCode();
+
+                // Set sessionId to session
+                session.SetInt32("sessionId", sessionId.Value);
+            }
+        }
+        
+        List<Cart> carts = new List<Cart>();
+        int totalPrice = 0;
 
         if (username != null)
         {
             // Get User from database
-            user = UserData.GetUserByUsername(username);
+            User user = UserData.GetUserByUsername(username);
             ViewBag.user = user;
+
+            carts = CartData.GetCart(user.id);
+
+            totalPrice = CartData.GetTotalPrice(user.id);
         }
+        else if (sessionId != null)
+        {
+            carts = CartData.GetCart(sessionId.Value);
 
-        List<Cart> carts = CartData.GetCart((int)user.id);
-
-        int totalPrice = CartData.GetTotalPrice((int)user.id);
+            totalPrice = CartData.GetTotalPrice(sessionId.Value);
+        }
 
         // Send it to the view
         ViewBag.carts = carts;
@@ -54,12 +77,12 @@ public class CartController : Controller
             CartData.AddToCart(userId, productId);
         }
 
-        return Redirect("/Product");
+        return RedirectToAction("Index", "Product");
     }
 
     public IActionResult UpdateCart(int userId, int productId, int productQuantity)
     {
-        return Redirect("/Product");
+        return RedirectToAction("Index", "Product");
     }
 
     [HttpPost]
@@ -67,15 +90,15 @@ public class CartController : Controller
     {
         CartData.RemoveFromCart(userId, productId);
 
-        return Redirect("/Cart");
+        return RedirectToAction("Index", "Cart");
     }
 
-     [HttpPost]
+    [HttpPost]
     public IActionResult Increase(int userId, int productId)
     {
         CartData.UpdateTheCart(userId, productId);
 
-        return Redirect("/Cart");
+        return RedirectToAction("Index", "Cart");
     }
 
      [HttpPost]
@@ -90,7 +113,7 @@ public class CartController : Controller
             CartData.RemoveFromCart(userId, productId);
         }
 
-        return Redirect("/Cart");
+        return RedirectToAction("Index", "Cart");
     }
 
     [HttpPost]
@@ -105,6 +128,6 @@ public class CartController : Controller
             CartData.Update(userId, productId, productQuantity);
         }
 
-        return Redirect("/Cart");
+        return RedirectToAction("Index", "Cart");
     }
 }

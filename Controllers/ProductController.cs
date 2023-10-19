@@ -29,19 +29,41 @@ public class ProductController : Controller
         // Get username from session
         string? username = session.GetString("username");
 
-        User? user = new User();
+        int? sessionId = null;
+
+        if (username == null)
+        {
+            sessionId = session.GetInt32("sessionId");
+
+            if (sessionId == null)
+            {
+                // Create sessionId
+                sessionId = Guid.NewGuid().GetHashCode();
+
+                // Set sessionId to session
+                session.SetInt32("sessionId", sessionId.Value);
+            }
+        }
+
         int totalQuantity = 0;
 
         // Get User from database
         if (username != null)
         {
-            user = UserData.GetUserByUsername(username);
-            totalQuantity = CartData.GetTotalQuantity(user.id);
-
-            // Send it to the view
+            User user = UserData.GetUserByUsername(username);
             ViewBag.user = user;
-            ViewBag.totalQuantity = totalQuantity;
+            
+            totalQuantity = CartData.GetTotalQuantity(user.id);
         }
+        else if (sessionId != null)
+        {
+            totalQuantity = CartData.GetTotalQuantity(sessionId.Value);
+        }
+
+        // Send it to the view
+        
+        ViewBag.sessionId = sessionId;
+        ViewBag.totalQuantity = totalQuantity;
 
         // Return view
         return View();

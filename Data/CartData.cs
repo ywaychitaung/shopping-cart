@@ -283,7 +283,7 @@ public class CartData
         {
             if (cart != null)
             {
-                totalPrice +=  cart.Price * cart.Quantity;
+                totalPrice += cart.Price * cart.Quantity;
             }
         }
 
@@ -325,6 +325,59 @@ public class CartData
 
             // Stop connecting to the database
             conn.Close();
+        }
+    }
+
+    public static void ChangeSessionIdToUserId(int userId, int sessionId)
+    {
+        using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
+        {
+            // Start connecting to the database
+            conn.Open();
+
+            // SQL query
+            string sql = @"UPDATE Cart SET UserId=@UserId WHERE UserId=" + sessionId;
+            
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@UserId", userId);
+
+            cmd.ExecuteNonQuery();
+
+            // Stop connecting to the database
+            conn.Close();
+        }
+    }
+
+    public static void MergeDuplicateItems(List<Cart> cart1, List<Cart> cart2)
+    {
+        foreach (var c1 in cart1)
+        {
+            foreach (var c2 in cart2)
+            {
+                if (c1.ProductId == c2.ProductId)
+                {
+                    c1.Quantity += c2.Quantity;
+
+                    using (SqlConnection conn = new SqlConnection(Data.CONNECTION_STRING))
+                    {
+                        // Start connecting to the database
+                        conn.Open();
+
+                        // SQL query
+                        string sql = @"UPDATE Cart SET Quantity=@Quantity WHERE UserId=" + c1.UserId + "AND ProductId=" + c1.ProductId;
+                        
+                        SqlCommand cmd = new SqlCommand(sql, conn);
+                        cmd.Parameters.AddWithValue("@Quantity", c1.Quantity);
+
+                        cmd.ExecuteNonQuery();
+
+                        // Stop connecting to the database
+                        conn.Close();
+                    }
+
+                    RemoveFromCart(c2.UserId, c2.ProductId);
+                }
+            }
         }
     }
 }

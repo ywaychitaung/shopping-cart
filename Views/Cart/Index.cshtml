@@ -12,9 +12,13 @@
         Back to Home
     </a>
 
-    <a asp-controller="Logout" asp-action="Index">
-        Logout
-    </a>
+    @if (user != null)
+    {
+        <form asp-controller="Logout" asp-action="Index" method="POST">
+            <input type="hidden" name="username" value="@user.username">
+            <button type="submit" class="btn btn-primary">Logout</button>
+        </form>
+    }
 </header>
 
 <div class="container">
@@ -104,8 +108,11 @@
                     <h5>$ @totalPrice</h5>
                 </div>
 
-                <form action="/Order/Success" method="POST">
-                    <input type="hidden" id="userId" name="userId" value="@user.id">
+                <form asp-controller="Order" asp-action="Checkout" method="POST">
+                    @if (user != null)
+                    {
+                        <input type="hidden" id="userId" name="userId" value="@user.id">
+                    }
                     <button type="submit" class="btn btn-primary w-100">Checkout</button>
                 </form>
             </div>
