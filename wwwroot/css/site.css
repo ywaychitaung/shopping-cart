@@ -57,3 +57,7 @@ body {
 .rounded-full {
   border-radius: 9999px;
 }
+
+.mt-20 {
+  margin-top: 200px;
+}

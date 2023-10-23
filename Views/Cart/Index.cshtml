@@ -24,100 +24,113 @@
 <div class="container">
     <h3 class="text-center my-5">Shopping Cart</h3>
 
-    <div class="d-flex align-items-start justify-content-between">
-        <div class="w-75">
-            <table class="table">
-                <thead>
-                    <tr class="text-center">
-                        <th scope="col">ITEM</th>
-                        <th scope="col">PRICE</th>
-                        <th scope="col">QUANTITY</th>
-                        <th scope="col">SUBTOTAL</th>
-                    </tr>
-                </thead>
+    @if (carts != null)
+    {
+        <h2 class="text-center mt-20">There is no item in the cart.</h2>
+        <div class="d-flex justify-center m-5">
+            <button class="btn btn-primary mx-auto">
+                <i class="bi bi-arrow-left"></i>
+                <span class="ms-2">Go back to shopping</span>
+            </button>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex align-items-start justify-content-between">
+            <div class="w-75">
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">ITEM</th>
+                            <th scope="col">PRICE</th>
+                            <th scope="col">QUANTITY</th>
+                            <th scope="col">SUBTOTAL</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    @foreach(var cart in carts)
-                    {
-                        <tr class="vertical-middle">
-                            <td class="d-flex align-items-center">
-                                <img height="100" width="100" src="@cart.ImageUrl" alt="@cart.Name">
+                    <tbody>
+                        @foreach(var cart in carts)
+                        {
+                            <tr class="vertical-middle">
+                                <td class="d-flex align-items-center">
+                                    <img height="100" width="100" src="@cart.ImageUrl" alt="@cart.Name">
 
-                                <div class="ms-5">
-                                    <h4>@cart.Name</h4>
-                                    <p>@cart.Description</p>
+                                    <div class="ms-5">
+                                        <h4>@cart.Name</h4>
+                                        <p>@cart.Description</p>
 
-                                    <form action="/Cart/Remove" method="POST">
-                                        <input type="hidden" name="userId" value="@cart.UserId">
-                                        <input type="hidden" name="productId" value="@cart.ProductId">
-                                        <button type="submit" class="btn btn-outline-danger">Remove</button>
-                                    </form>
-                                </div>
-                            </td>
-
-                            <td class="text-center">$ @cart.Price</td>
-
-                            <td>
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <form action="/Cart/Decrease" method="POST">
-                                        <input type="hidden" name="userId" value="@cart.UserId">
-                                        <input type="hidden" name="productId" value="@cart.ProductId">
-                                        <input type="hidden" name="productQuantity" value="@cart.Quantity" />
-                                        <button type="submit" class="btn btn-primary">-</button>
-                                    </form>
-
-                                    <div class="w-16 mx-3">
-                                        <form action="/Cart/Update" method="POST">
+                                        <form action="/Cart/Remove" method="POST">
                                             <input type="hidden" name="userId" value="@cart.UserId">
                                             <input type="hidden" name="productId" value="@cart.ProductId">
-                                            <input type="number" onkeypress="submit" name="productQuantity" value="@cart.Quantity" class="w-100" />
+                                            <button type="submit" class="btn btn-outline-danger">Remove</button>
                                         </form>
                                     </div>
+                                </td>
 
-                                    <form action="/Cart/Increase" method="POST">
-                                        <input type="hidden" name="userId" value="@cart.UserId">
-                                        <input type="hidden" name="productId" value="@cart.ProductId">
-                                        <button type="submit" class="btn btn-primary">+</button>
-                                    </form>
-                                </div>
-                            </td>
+                                <td class="text-center">$ @cart.Price</td>
 
-                            <td class="text-center">$ @(cart.Price * cart.Quantity)</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                                <td>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <form action="/Cart/Decrease" method="POST">
+                                            <input type="hidden" name="userId" value="@cart.UserId">
+                                            <input type="hidden" name="productId" value="@cart.ProductId">
+                                            <input type="hidden" name="productQuantity" value="@cart.Quantity" />
+                                            <button type="submit" class="btn btn-primary">-</button>
+                                        </form>
 
-        <div class="w-25">
-            <div class="container shadow rounded-3 p-3 ms-5">
-                <div class="d-flex justify-content-between">
-                    <p class="text-secondary">Subtotal</p>
-                    <p>$ @totalPrice</p>
+                                        <div class="w-16 mx-3">
+                                            <form action="/Cart/Update" method="POST">
+                                                <input type="hidden" name="userId" value="@cart.UserId">
+                                                <input type="hidden" name="productId" value="@cart.ProductId">
+                                                <input type="number" onkeypress="submit" name="productQuantity" value="@cart.Quantity" class="w-100" />
+                                            </form>
+                                        </div>
+
+                                        <form action="/Cart/Increase" method="POST">
+                                            <input type="hidden" name="userId" value="@cart.UserId">
+                                            <input type="hidden" name="productId" value="@cart.ProductId">
+                                            <button type="submit" class="btn btn-primary">+</button>
+                                        </form>
+                                    </div>
+                                </td>
+
+                                <td class="text-center">$ @(cart.Price * cart.Quantity)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="w-25">
+                <div class="container shadow rounded-3 p-3 ms-5">
+                    <div class="d-flex justify-content-between">
+                        <p class="text-secondary">Subtotal</p>
+                        <p>$ @totalPrice</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <p class="text-secondary">Shipping</p>
+                        <p>Free</p>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <p class="text-secondary">Total</p>
+                        <h5>$ @totalPrice</h5>
+                    </div>
+
+                    <form asp-controller="Order" asp-action="Checkout" method="POST">
+                        @if (user != null)
+                        {
+                            <input type="hidden" id="userId" name="userId" value="@user.id">
+                        }
+                        <button type="submit" class="btn btn-primary w-100">Checkout</button>
+                    </form>
                 </div>
-
-                <div class="d-flex justify-content-between">
-                    <p class="text-secondary">Shipping</p>
-                    <p>Free</p>
-                </div>
-
-                <hr>
-
-                <div class="d-flex justify-content-between mb-3">
-                    <p class="text-secondary">Total</p>
-                    <h5>$ @totalPrice</h5>
-                </div>
-
-                <form asp-controller="Order" asp-action="Checkout" method="POST">
-                    @if (user != null)
-                    {
-                        <input type="hidden" id="userId" name="userId" value="@user.id">
-                    }
-                    <button type="submit" class="btn btn-primary w-100">Checkout</button>
-                </form>
             </div>
         </div>
-    </div>
+    }
 </div>
 
 @* <div class="d-flex align-items-center justify-content-between mt-5">
